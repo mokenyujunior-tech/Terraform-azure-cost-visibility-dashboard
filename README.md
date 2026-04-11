@@ -256,7 +256,7 @@ Both options leave `rg-terraform-state` and `sttfstatecvd0411` alone — the sta
 cost-visibility-dashboard/
 ├── main.tf                      # Provider + remote backend
 ├── variables.tf                 # Input variables
-├── terraform.tfvars.example     # Template for local values
+├── terraform.tfvars     # Template for local values
 ├── resource_group.tf            # Main RG + random suffix
 ├── log_analytics.tf             # Log Analytics Workspace
 ├── application_insights.tf      # Wired to the workspace
