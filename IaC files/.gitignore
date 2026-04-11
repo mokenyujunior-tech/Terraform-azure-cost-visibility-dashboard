@@ -16,7 +16,7 @@
 # Variable files — may contain subscription IDs and emails
 *.tfvars
 *.tfvars.json
-!terraform.tfvars.example
+!terraform.tfvars
 
 # Crash logs
 crash.log
