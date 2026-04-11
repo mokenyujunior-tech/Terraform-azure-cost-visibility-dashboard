@@ -1,4 +1,0 @@
-azure-functions>=1.18.0
-azure-identity>=1.17.0
-azure-mgmt-costmanagement>=4.0.0
-requests>=2.32.0
