@@ -1,0 +1,31 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 1,
+      "content": {
+        "json": "## Cost Visibility Dashboard\n\nMonthly spend broken down by the `costcategory` tag. Data refreshes ~4 times per day via the Cost Management pipeline."
+      },
+      "name": "header"
+    },
+    {
+      "type": 10,
+      "content": {
+        "chartId": "cost-by-category",
+        "version": "MetricsItem/2.0",
+        "size": 0,
+        "chartType": 2,
+        "resourceType": "microsoft.costmanagement/query",
+        "metricScope": 0,
+        "resourceIds": [
+          "{Subscription}"
+        ]
+      },
+      "name": "cost-by-category-chart"
+    }
+  ],
+  "isLocked": false,
+  "fallbackResourceIds": [
+    "Azure Monitor"
+  ]
+}
