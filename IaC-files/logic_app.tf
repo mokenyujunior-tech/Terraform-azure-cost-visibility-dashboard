@@ -65,9 +65,9 @@ resource "azurerm_resource_group_template_deployment" "logic_app" {
     contentVersion = "1.0.0.0"
 
     parameters = {
-      workflowName = { type = "string" }
-      location     = { type = "string" }
-      ownerEmail   = { type = "string" }
+      workflowName = { type = "String" }
+      location     = { type = "String" }
+      ownerEmail   = { type = "String" }
     }
 
     resources = [
@@ -167,7 +167,7 @@ resource "azurerm_resource_group_template_deployment" "logic_app" {
         value = "[listCallbackUrl(concat(resourceId('Microsoft.Logic/workflows', parameters('workflowName')), '/triggers/manual'), '2019-05-01').value]"
       }
       workflowId = {
-        type  = "string"
+        type  = "String"
         value = "[resourceId('Microsoft.Logic/workflows', parameters('workflowName'))]"
       }
     }
@@ -186,6 +186,6 @@ resource "azurerm_resource_group_template_deployment" "logic_app" {
 # output_content flattens the ARM {type, value} wrapper into a bare key.
 # ----------------------------------------------------------------------------
 locals {
-  logic_app_callback_url = jsondecode(azurerm_resource_group_template_deployment.logic_app.output_content).callbackUrl
-  logic_app_id           = jsondecode(azurerm_resource_group_template_deployment.logic_app.output_content).workflowId
+  logic_app_callback_url = jsondecode(azurerm_resource_group_template_deployment.logic_app.output_content).callbackUrl.value
+  logic_app_id           = jsondecode(azurerm_resource_group_template_deployment.logic_app.output_content).workflowId.value
 }

@@ -2,7 +2,7 @@
 # variables.tf — Input variable definitions
 # ============================================================
 # Terraform first reads default values declared here, then
-# overrides them with values from terraform.tfvars (local
+# overrides them with values from terraform.tfvars.example (local
 # runs) or TF_VAR_* environment variables (GitHub Actions).
 # ============================================================
 
