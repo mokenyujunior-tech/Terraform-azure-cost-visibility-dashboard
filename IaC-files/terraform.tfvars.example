@@ -11,8 +11,8 @@
 # pipeline to work — only for local runs from your laptop.
 # ============================================================
 
-subscription_id = "ec289c8e-4873-4660-a368-35309d8ca713"
-owner_email     = "mokenyukezongwe@outlook.com"
+subscription_id = "00000000-0000-0000-0000-000000000000"
+owner_email     = "your.email@example.com"
 
 # Optional overrides:
 # location              = "canadacentral"
