@@ -1,13 +1,13 @@
 # ============================================================
-# terraform.tfvars
+# terraform.tfvars.example
 # ============================================================
-# Copy this file to terraform.tfvars and fill in your own
-# values. terraform.tfvars is gitignored so it never gets
+# Copy this file to terraform.tfvars.example and fill in your own
+# values. terraform.tfvars.example is gitignored so it never gets
 # committed to GitHub.
 #
 # In GitHub Actions, Terraform reads these same values from
 # TF_VAR_* environment variables that the pipeline sets from
-# GitHub Secrets. You do not need terraform.tfvars for the
+# GitHub Secrets. You do not need terraform.tfvars.example for the
 # pipeline to work — only for local runs from your laptop.
 # ============================================================
 
