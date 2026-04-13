@@ -37,4 +37,8 @@ build/
 # OS
 .DS_Store
 Thumbs.db
+
 function_code/.python_packages/
+function_code/__pycache__/
+**/__pycache__/
+*.pyc

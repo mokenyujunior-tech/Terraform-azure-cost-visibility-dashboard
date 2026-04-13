@@ -3,7 +3,7 @@
 # ============================================================
 # The Logic App is deployed via an inline ARM template because
 # the azurerm provider doesn't have resources for Logic App
-# API connection actions (Office 365 connector).
+# API connection actions (Outlook.com connector).
 #
 # Fixes baked in:
 #   1. ARM outputs are read as .callbackUrl (no .value suffix)
@@ -13,18 +13,18 @@
 #   3. listCallbackUrl uses the lowercase-friendly spelling
 # ============================================================
 
-# API Connection to Office 365 Outlook (the "connector" the
+# API Connection to Outlook.com Outlook (the "connector" the
 # Logic App uses to send mail).
-data "azurerm_managed_api" "office365" {
-  name     = "office365"
+data "azurerm_managed_api" "outlook" {
+  name     = "outlook"
   location = azurerm_resource_group.main.location
 }
 
-resource "azurerm_api_connection" "office365" {
-  name                = "api-office365-${var.project_short_name}-${random_string.suffix.result}"
+resource "azurerm_api_connection" "outlook" {
+  name                = "api-outlook-${var.project_short_name}-${random_string.suffix.result}"
   resource_group_name = azurerm_resource_group.main.name
-  managed_api_id      = data.azurerm_managed_api.office365.id
-  display_name        = "Office 365 (${var.owner_email})"
+  managed_api_id      = data.azurerm_managed_api.outlook.id
+  display_name        = "Outlook.com (${var.owner_email})"
 
   tags = merge(var.tags, {
     costcategory = "Automation"
@@ -41,7 +41,7 @@ resource "azurerm_api_connection" "office365" {
 }
 
 # The Logic App workflow itself — deployed via ARM template
-# because Terraform cannot express Office 365 connector
+# because Terraform cannot express Outlook.com connector
 # actions natively.
 resource "azurerm_resource_group_template_deployment" "logic_app" {
   name                = "la-cost-alert-emailer-${var.project_short_name}-${random_string.suffix.result}-deploy"
@@ -129,7 +129,7 @@ resource "azurerm_resource_group_template_deployment" "logic_app" {
                 inputs = {
                   host = {
                     connection = {
-                      name = "@parameters('$connections')['office365']['connectionId']"
+                      name = "@parameters('$connections')['outlook']['connectionId']"
                     }
                   }
                   method = "post"
@@ -149,10 +149,10 @@ resource "azurerm_resource_group_template_deployment" "logic_app" {
           parameters = {
             "$connections" = {
               value = {
-                office365 = {
-                  connectionId   = azurerm_api_connection.office365.id
-                  connectionName = "office365"
-                  id             = data.azurerm_managed_api.office365.id
+                outlook = {
+                  connectionId   = azurerm_api_connection.outlook.id
+                  connectionName = "outlook"
+                  id             = data.azurerm_managed_api.outlook.id
                 }
               }
             }
@@ -174,7 +174,7 @@ resource "azurerm_resource_group_template_deployment" "logic_app" {
   })
 
   depends_on = [
-    azurerm_api_connection.office365,
+    azurerm_api_connection.outlook,
   ]
 }
 

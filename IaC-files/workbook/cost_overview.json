@@ -4,24 +4,99 @@
     {
       "type": 1,
       "content": {
-        "json": "## Cost Visibility Dashboard\n\nMonthly spend broken down by the `costcategory` tag. Data refreshes ~4 times per day via the Cost Management pipeline."
+        "json": "## Cost Visibility Dashboard\n---\nInteractive view of all resources in this subscription, grouped by type, location, and resource group. Powered by Azure Resource Graph.\n\n**Owner:** mokcloud  |  **Project:** cost-visibility  |  **Environment:** dev"
       },
       "name": "header"
     },
     {
-      "type": 10,
+      "type": 9,
       "content": {
-        "chartId": "cost-by-category",
-        "version": "MetricsItem/2.0",
-        "size": 0,
-        "chartType": 2,
-        "resourceType": "microsoft.costmanagement/query",
-        "metricScope": 0,
-        "resourceIds": [
-          "{Subscription}"
-        ]
+        "version": "KqlParameterItem/1.0",
+        "parameters": [
+          {
+            "id": "subscription-param",
+            "version": "KqlParameterItem/1.0",
+            "name": "Subscription",
+            "type": 6,
+            "isRequired": true,
+            "value": [
+              "value::selected"
+            ],
+            "typeSettings": {
+              "additionalResourceOptions": [],
+              "includeAll": false
+            }
+          }
+        ],
+        "style": "pills",
+        "queryType": 0,
+        "resourceType": "microsoft.resourcegraph/resources"
       },
-      "name": "cost-by-category-chart"
+      "name": "parameters"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "Resources\n| summarize ResourceCount = count() by type\n| order by ResourceCount desc",
+        "size": 1,
+        "title": "Resources by Type",
+        "queryType": 1,
+        "resourceType": "microsoft.resourcegraph/resources",
+        "crossComponentResources": [
+          "{Subscription}"
+        ],
+        "visualization": "barchart"
+      },
+      "name": "resources-by-type"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "Resources\n| summarize ResourceCount = count() by location\n| order by ResourceCount desc",
+        "size": 1,
+        "title": "Resources by Location",
+        "queryType": 1,
+        "resourceType": "microsoft.resourcegraph/resources",
+        "crossComponentResources": [
+          "{Subscription}"
+        ],
+        "visualization": "piechart"
+      },
+      "name": "resources-by-location"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "Resources\n| summarize ResourceCount = count() by resourceGroup\n| order by ResourceCount desc",
+        "size": 1,
+        "title": "Resources by Resource Group",
+        "queryType": 1,
+        "resourceType": "microsoft.resourcegraph/resources",
+        "crossComponentResources": [
+          "{Subscription}"
+        ],
+        "visualization": "table"
+      },
+      "name": "resources-by-rg"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "Resources\n| project name, type, location, resourceGroup\n| order by type asc",
+        "size": 0,
+        "title": "Full Resource Inventory",
+        "queryType": 1,
+        "resourceType": "microsoft.resourcegraph/resources",
+        "crossComponentResources": [
+          "{Subscription}"
+        ],
+        "visualization": "table"
+      },
+      "name": "full-inventory"
     }
   ],
   "isLocked": false,

@@ -42,6 +42,10 @@ data "archive_file" "function_zip" {
   type        = "zip"
   source_dir  = "${path.module}/function_code"
   output_path = "${path.module}/build/function_code.zip"
+
+  depends_on = [
+    null_resource.pip_install,
+  ]
 }
 
 # Upload the zip into the releases container.

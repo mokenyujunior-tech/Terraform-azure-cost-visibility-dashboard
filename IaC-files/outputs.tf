@@ -13,8 +13,8 @@ output "function_app_name" {
 }
 
 output "api_connection_name" {
-  description = "Office 365 API connection that must be manually authorized once after first apply."
-  value       = azurerm_api_connection.office365.name
+  description = "Outlook.com API connection that must be manually authorized once after first apply."
+  value       = azurerm_api_connection.outlook.name
 }
 
 output "logic_app_workflow_id" {
@@ -35,9 +35,9 @@ output "post_apply_steps" {
     POST-APPLY MANUAL STEPS (one-time)
     ============================================================
 
-    1. Authorize the Office 365 connection:
+    1. Authorize the Outlook.com connection:
          Portal > Resource group ${azurerm_resource_group.main.name}
-               > ${azurerm_api_connection.office365.name}
+               > ${azurerm_api_connection.outlook.name}
                > Edit API connection > Authorize > sign in
                > Save
 
