@@ -72,7 +72,7 @@ This project provisions an end-to-end cost visibility solution for an Azure subs
 | Storage Account | `stcvd<suffix>` | Function App coordination + holds zipped Python code | Storage |
 | App Service Plan (Y1) | `asp-cvd-<suffix>` | Linux Consumption plan for the Function App | Automation |
 | Linux Function App | `func-cvd-<suffix>` | Python 3.11 weekly cost reporter with system-assigned MI | Automation |
-| Office 365 API Connection | `api-office365-cvd-<suffix>` | Used by the Logic App to send email | Automation |
+| Outlook.com API Connection | `api-outlook-cvd-<suffix>` | Used by the Logic App to send email | Automation |
 | Logic App (via ARM template) | `la-cost-alert-emailer-cvd-<suffix>` | Receives alerts and sends email | Automation |
 | Monitor Action Group | `ag-cost-alerts-cvd-<suffix>` | Fires the Logic App on budget thresholds | Automation |
 | Consumption Budget | `monthly-cost-budget-200` | $200 CAD monthly budget with 50/75/90/100% thresholds | (subscription-scoped) |
@@ -88,7 +88,7 @@ This project provisions an end-to-end cost visibility solution for an Azure subs
 - **CI/CD:** GitHub Actions with PowerShell Core (`pwsh`)
 - **Authentication:** Service Principal with Contributor role
 - **Function Runtime:** Python 3.11 on Linux Consumption (Y1)
-- **Alerting:** Azure Monitor → Action Group → Logic App → Office 365 Outlook
+- **Alerting:** Azure Monitor → Action Group → Logic App → Outlook.com Outlook
 - **Monitoring:** Log Analytics Workspace + Application Insights (workspace-based)
 
 ---
@@ -195,8 +195,8 @@ Go to the **Actions** tab in your GitHub repo. You should see "Deploy Cost Visib
 
 After the pipeline succeeds:
 
-1. **Authorize the Office 365 connection** (one-time human click):
-   - Portal → `rg-cost-visibility` → `api-office365-cvd-<suffix>`
+1. **Authorize the Outlook.com connection** (one-time human click):
+   - Portal → `rg-cost-visibility` → `api-outlook-cvd-<suffix>`
    - Edit API connection → Authorize → sign in with the email
    - Save
 
@@ -256,7 +256,7 @@ Both options leave `rg-terraform-state` and `sttfstatecvd0411` alone — the sta
 cost-visibility-dashboard/
 ├── main.tf                      # Provider + remote backend
 ├── variables.tf                 # Input variables
-├── terraform.tfvars     # Template for local values
+├── terraform.tfvars.example     # Template for local values
 ├── resource_group.tf            # Main RG + random suffix
 ├── log_analytics.tf             # Log Analytics Workspace
 ├── application_insights.tf      # Wired to the workspace
