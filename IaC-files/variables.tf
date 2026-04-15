@@ -42,6 +42,24 @@ variable "monthly_budget_amount" {
   default     = 200
 }
 
+variable "vm_admin_username" {
+  description = "Admin username for the cost-monitoring lab VM."
+  type        = string
+  default     = "mokadmin"
+}
+
+variable "ssh_allowed_source_ip" {
+  description = "Public IP allowed to SSH into the lab VM. Change this if your ISP rotates your IP."
+  type        = string
+  default     = "198.96.84.204"
+}
+
+variable "vm_size" {
+  description = "Azure VM SKU. B2ts_v2 is the cheapest non-retiring burstable available in Canada Central."
+  type        = string
+  default     = "Standard_B2ts_v2"
+}
+
 variable "weekly_report_cron" {
   description = "NCRONTAB expression that triggers the Function App. Default: every Monday at 08:00 UTC."
   type        = string

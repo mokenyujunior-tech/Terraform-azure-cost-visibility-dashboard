@@ -55,3 +55,19 @@ output "post_apply_steps" {
   EOT
   sensitive   = true
 }
+
+output "vm_public_ip" {
+  description = "Public IP of the lab VM. SSH with: ssh -i ~/.ssh/cvd_vm_key mokadmin@<this-ip>"
+  value       = azurerm_public_ip.vm.ip_address
+}
+
+output "vm_ssh_private_key" {
+  description = "Private SSH key for the lab VM. Retrieve with: terraform output -raw vm_ssh_private_key"
+  value       = tls_private_key.vm_ssh.private_key_pem
+  sensitive   = true
+}
+
+output "vm_ssh_command" {
+  description = "Ready-to-paste SSH command for the lab VM."
+  value       = "ssh -i ~/.ssh/cvd_vm_key ${var.vm_admin_username}@${azurerm_public_ip.vm.ip_address}"
+}

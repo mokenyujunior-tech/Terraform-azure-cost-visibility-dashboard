@@ -6,16 +6,17 @@
 # These appear in: Subscription -> Cost Management ->
 # Cost analysis -> View dropdown.
 #
-# Mirrors the three views built manually in the portal phase:
-#   1. BizOwner-CostCategory  (Monthly, grouped by tag 'costcategory')
-#   2. BizOwner-RGroupDaily   (Daily,   grouped by ResourceGroupName)
-#   3. BizOwner-ServiceDaily  (Daily,   grouped by ServiceName)
+# Each view has TWO grouping concerns that must be set
+# separately in the Cost Management API schema:
 #
-# All three use:
-#   - report_type = Usage         (actual cost, not amortized)
-#   - timeframe   = MonthToDate   (resets on the 1st of each month)
-#   - chart_type  = Area          (matches the portal screenshots)
-#   - accumulated = true          (running total across the period)
+#   1. dataset.grouping  -> drives the MAIN chart's "Group by"
+#                           dropdown (the big chart at the top)
+#   2. pivot blocks      -> drive the THREE sub-charts at the
+#                           bottom of the view (donut breakdowns)
+#
+# The original version of this file only set pivots, which is
+# why the main chart was always grouping by None. Both must be
+# set for the view to fully match the portal-built version.
 # ============================================================
 
 # ---- 1. Cost by Cost Category tag (Monthly) ----------------
@@ -35,8 +36,15 @@ resource "azurerm_subscription_cost_management_view" "biz_owner_cost_category" {
       name        = "totalCost"
       column_name = "Cost"
     }
+
+    # Main chart's "Group by" -> tag named 'costcategory'
+    grouping {
+      type = "TagKey"
+      name = "costcategory"
+    }
   }
 
+  # Three sub-views at the bottom of the page
   pivot {
     type = "TagKey"
     name = "costcategory"
@@ -69,6 +77,12 @@ resource "azurerm_subscription_cost_management_view" "biz_owner_rgroup_daily" {
     aggregation {
       name        = "totalCost"
       column_name = "Cost"
+    }
+
+    # Main chart's "Group by" -> Resource group name
+    grouping {
+      type = "Dimension"
+      name = "ResourceGroupName"
     }
   }
 
@@ -104,6 +118,12 @@ resource "azurerm_subscription_cost_management_view" "biz_owner_service_daily" {
     aggregation {
       name        = "totalCost"
       column_name = "Cost"
+    }
+
+    # Main chart's "Group by" -> Service name
+    grouping {
+      type = "Dimension"
+      name = "ServiceName"
     }
   }
 
