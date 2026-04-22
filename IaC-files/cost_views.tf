@@ -1,24 +1,3 @@
-# ============================================================
-# cost_views.tf
-# ============================================================
-# Saved Cost Analysis views at the subscription scope.
-#
-# These appear in: Subscription -> Cost Management ->
-# Cost analysis -> View dropdown.
-#
-# Each view has TWO grouping concerns that must be set
-# separately in the Cost Management API schema:
-#
-#   1. dataset.grouping  -> drives the MAIN chart's "Group by"
-#                           dropdown (the big chart at the top)
-#   2. pivot blocks      -> drive the THREE sub-charts at the
-#                           bottom of the view (donut breakdowns)
-#
-# The original version of this file only set pivots, which is
-# why the main chart was always grouping by None. Both must be
-# set for the view to fully match the portal-built version.
-# ============================================================
-
 # ---- 1. Cost by Cost Category tag (Monthly) ----------------
 resource "azurerm_subscription_cost_management_view" "biz_owner_cost_category" {
   name             = "BizOwner-CostCategory"

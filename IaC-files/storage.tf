@@ -1,19 +1,3 @@
-# ============================================================
-# storage.tf
-# ============================================================
-# Storage account that the Function App uses for its internal
-# coordination (webjobs containers) plus a separate container
-# that holds the zipped Python function code.
-#
-# Lessons baked in:
-#   - Storage names must be lowercase, 3-24 chars, no hyphens
-#   - LRS is fine for a portfolio project
-#   - shared_access_key_enabled stays true because Linux
-#     Consumption requires the key on cold start
-#   - SAS start date is conservatively in the past so the
-#     SAS is valid from any clock drift angle
-# ============================================================
-
 resource "azurerm_storage_account" "func" {
   name                     = "st${var.project_short_name}${random_string.suffix.result}"
   resource_group_name      = azurerm_resource_group.main.name

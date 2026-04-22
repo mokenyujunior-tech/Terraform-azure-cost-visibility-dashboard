@@ -1,10 +1,3 @@
-# ============================================================
-# workbook.tf
-# ============================================================
-# Azure Monitor Workbook that renders the cost visibility
-# dashboard using KQL queries against Cost Management data.
-# ============================================================
-
 resource "random_uuid" "workbook" {}
 
 resource "azurerm_application_insights_workbook" "cost_overview" {

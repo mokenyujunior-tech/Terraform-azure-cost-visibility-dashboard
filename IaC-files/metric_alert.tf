@@ -1,23 +1,3 @@
-# ============================================================
-# metric_alert.tf
-# ============================================================
-# Near-real-time CPU metric alert on the lab VM.
-#
-# Acts as the early-warning leg of the cost monitoring story:
-# Cost Management has a 24-72 hour data delay, anomaly alerts
-# wait 36 hours after end-of-day. This alert evaluates every
-# 5 minutes over a 15-minute window, so a runaway workload is
-# detected in 5-15 minutes instead of a day later.
-#
-# Triggering test (run on the VM via SSH):
-#   sudo apt-get install -y stress
-#   stress --cpu 2 --timeout 600
-# Email arrives ~5 minutes after CPU sustains > 80%.
-# ============================================================
-
-# Dedicated action group for operational/metric alerts. Kept
-# separate from ag-cost-alerts so muting one doesn't silence
-# the other.
 resource "azurerm_monitor_action_group" "metric_alerts" {
   name                = "ag-metric-alerts-cvd-${random_string.suffix.result}"
   resource_group_name = azurerm_resource_group.main.name

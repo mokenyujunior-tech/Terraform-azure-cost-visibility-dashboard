@@ -1,21 +1,3 @@
-# ============================================================
-# function_app.tf
-# ============================================================
-# Linux Consumption Function App running Python 3.11.
-#
-# Fixes baked in from previous iterations:
-#   1. FUNCTIONS_WORKER_RUNTIME = "python" is now explicit
-#      (previously missing; auto-detection could fail)
-#   2. App Insights is wired via workspace-based resource
-#      so workspace_id doesn't churn on re-apply
-#   3. Both application_insights_connection_string AND
-#      application_insights_key are set because the
-#      Terraform provider requires them together
-#   4. WEBSITE_RUN_FROM_PACKAGE uses the SAS URL from
-#      storage.tf so the code ships from a blob
-#   5. Managed Identity enabled for Cost Management access
-# ============================================================
-
 resource "azurerm_service_plan" "func" {
   name                = "asp-${var.project_short_name}-${random_string.suffix.result}"
   resource_group_name = azurerm_resource_group.main.name

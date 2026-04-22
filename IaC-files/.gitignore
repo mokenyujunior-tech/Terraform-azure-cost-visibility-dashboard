@@ -1,7 +1,3 @@
-# ============================================================
-# .gitignore — Cost Visibility Dashboard Terraform project
-# ============================================================
-
 # Local .terraform directories
 **/.terraform/*
 

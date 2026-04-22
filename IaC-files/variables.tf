@@ -1,11 +1,3 @@
-# ============================================================
-# variables.tf — Input variable definitions
-# ============================================================
-# Terraform first reads default values declared here, then
-# overrides them with values from terraform.tfvars.example (local
-# runs) or TF_VAR_* environment variables (GitHub Actions).
-# ============================================================
-
 variable "subscription_id" {
   description = "Azure subscription ID. Passed via TF_VAR_subscription_id from GitHub Secrets."
   type        = string

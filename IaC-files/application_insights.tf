@@ -1,11 +1,3 @@
-# ============================================================
-# application_insights.tf
-# ============================================================
-# Application Insights for the Function App. Wired to the
-# Log Analytics workspace via workspace_id so Terraform and
-# Azure agree on the workspace from day one.
-# ============================================================
-
 resource "azurerm_application_insights" "func" {
   name                = "appi-${var.project_short_name}-${random_string.suffix.result}"
   resource_group_name = azurerm_resource_group.main.name

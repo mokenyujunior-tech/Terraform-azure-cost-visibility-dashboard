@@ -1,20 +1,3 @@
-# ============================================================
-# logic_app.tf
-# ============================================================
-# The Logic App is deployed via an inline ARM template because
-# the azurerm provider doesn't have resources for Logic App
-# API connection actions (Outlook.com connector).
-#
-# Fixes baked in:
-#   1. ARM outputs are read as .callbackUrl (no .value suffix)
-#      because Terraform flattens the {type, value} wrapper
-#   2. display_name on the API connection is descriptive,
-#      not just an email address
-#   3. listCallbackUrl uses the lowercase-friendly spelling
-# ============================================================
-
-# API Connection to Outlook.com Outlook (the "connector" the
-# Logic App uses to send mail).
 data "azurerm_managed_api" "outlook" {
   name     = "outlook"
   location = azurerm_resource_group.main.location
@@ -30,9 +13,6 @@ resource "azurerm_api_connection" "outlook" {
     costcategory = "Automation"
   })
 
-  # The API connection starts unauthorized. A human has to
-  # click 'Authorize' in the portal once, after the first
-  # apply. This is documented in the walkthrough.
   lifecycle {
     ignore_changes = [
       parameter_values,
@@ -40,9 +20,6 @@ resource "azurerm_api_connection" "outlook" {
   }
 }
 
-# The Logic App workflow itself — deployed via ARM template
-# because Terraform cannot express Outlook.com connector
-# actions natively.
 resource "azurerm_resource_group_template_deployment" "logic_app" {
   name                = "la-cost-alert-emailer-${var.project_short_name}-${random_string.suffix.result}-deploy"
   resource_group_name = azurerm_resource_group.main.name
@@ -178,13 +155,6 @@ resource "azurerm_resource_group_template_deployment" "logic_app" {
   ]
 }
 
-# ----------------------------------------------------------------------------
-# Convenience locals so other .tf files can read the workflow's callback URL
-# and workflow ID without re-parsing the ARM output each time.
-#
-# IMPORTANT: .callbackUrl is read WITHOUT a .value suffix. Terraform's
-# output_content flattens the ARM {type, value} wrapper into a bare key.
-# ----------------------------------------------------------------------------
 locals {
   logic_app_callback_url = jsondecode(azurerm_resource_group_template_deployment.logic_app.output_content).callbackUrl.value
   logic_app_id           = jsondecode(azurerm_resource_group_template_deployment.logic_app.output_content).workflowId.value

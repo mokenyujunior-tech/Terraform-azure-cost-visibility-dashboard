@@ -1,20 +1,3 @@
-# ============================================================
-# anomaly_alert.tf
-# ============================================================
-# Daily cost anomaly alert at the subscription scope.
-# Equivalent to the portal: Cost Management -> Cost alerts ->
-# + Add -> Anomaly.
-#
-# Deployed via azapi_resource because azurerm has no native
-# resource for Microsoft.CostManagement/scheduledActions of
-# kind 'InsightAlert' as of provider v3.110.
-#
-# Detection runs daily ~36 hours after end-of-day UTC.
-# When an anomaly is detected (a daily cost outside the
-# 60-day forecast range) an email is sent immediately to
-# var.owner_email.
-# ============================================================
-
 resource "azapi_resource" "cost_anomaly_alert" {
   type      = "Microsoft.CostManagement/scheduledActions@2022-10-01"
   name      = "mokcloud-daily-anomaly"
@@ -42,9 +25,6 @@ resource "azapi_resource" "cost_anomaly_alert" {
     }
   })
 
-  # startDate uses timestamp() which would otherwise force
-  # replacement on every plan. To intentionally update the
-  # alert later, comment this out, apply, then uncomment.
   lifecycle {
     ignore_changes = [body]
   }

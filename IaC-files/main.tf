@@ -1,9 +1,3 @@
-# ============================================================
-# main.tf — Provider configuration and remote backend
-# Project: Azure Cost Visibility Dashboard
-# Owner:   MOKCLOUD / mokenyujunior-tech
-# ============================================================
-
 terraform {
   required_version = ">= 1.7.0"
 
@@ -34,10 +28,6 @@ terraform {
     }
   }
 
-  # Remote backend: stores terraform.tfstate in Azure Blob Storage
-  # so every run (local or GitHub Actions) reads the same state.
-  # This storage account is created manually ONCE in Section 3
-  # of the walkthrough, before the first `terraform init`.
   backend "azurerm" {
     resource_group_name  = "rg-terraform-state"
     storage_account_name = "sttfstatecvd0411"
@@ -46,9 +36,6 @@ terraform {
   }
 }
 
-# Azure provider. Reads ARM_CLIENT_ID / ARM_CLIENT_SECRET /
-# ARM_SUBSCRIPTION_ID / ARM_TENANT_ID environment variables
-# automatically when running in GitHub Actions.
 provider "azurerm" {
   features {
     resource_group {

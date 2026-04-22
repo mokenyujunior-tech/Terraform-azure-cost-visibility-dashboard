@@ -1,14 +1,3 @@
-# ============================================================
-# budget.tf
-# ============================================================
-# Monthly consumption budget at the subscription scope with
-# four notification thresholds: 50% / 75% / 90% / 100%.
-#
-# lifecycle.ignore_changes = [time_period] prevents Terraform
-# from detecting drift every apply because Azure stamps the
-# time_period with real timestamps that move with the clock.
-# ============================================================
-
 resource "azurerm_consumption_budget_subscription" "monthly" {
   name            = "monthly-cost-budget-${var.monthly_budget_amount}"
   subscription_id = "/subscriptions/${var.subscription_id}"
